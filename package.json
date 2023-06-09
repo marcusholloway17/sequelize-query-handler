@@ -1,10 +1,21 @@
 {
   "name": "sequelize-query-handler",
   "version": "1.0.0",
-  "description": "",
+  "description": "Dynamically handling queries with sequelize can be a pain. This package provides you with a function to query your database as you wish",
   "main": "index.js",
-  "scripts": {},
-  "keywords": [],
-  "author": "",
+  "scripts": {
+    "publish": "npm publish",
+    "version:patch": "npm version patch",
+    "version:minor": "npm version minor",
+    "version:major": "npm version major"
+  },
+  "keywords": [
+    "sequelize",
+    "query",
+    "handler",
+    "eager loading",
+    "model querying"
+  ],
+  "author": "Marcus LOGANE <loganjean17@gmail.com>",
   "license": "ISC"
 }
