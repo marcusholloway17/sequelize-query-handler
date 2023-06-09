@@ -4,7 +4,7 @@ module.exports = {
    * @param {object} req
    * @returns {object}
    */
-  handleRequest: (req) => {
+  handleQuery: (req) => {
     const globalRequest = { ...req.body?._query, ...req.query?._query };
     let query = {};
     // in the body
