@@ -17,7 +17,41 @@ Dynamically handling queries with sequelize can be a pain. This package provides
 
 ## Usage/Examples
 
-Using `findAll` method:
+In your request body, make a `GET` request like this: 
+```
+{
+    "_query": {
+        "attributes": [
+            "id",
+            "email",
+            "username",
+            "birthdate",
+            "created_at"
+        ],
+        "order": [
+            [
+                "created_at",
+                "desc"
+            ]
+        ],
+        "include": ["Post"],
+        "page": 2,
+        "pageSize": 10
+    }
+}
+```
+
+- Use `page` and `pageSize` together to `paginate`.
+
+- Use `include` keyword to include `associated models`.
+
+- Use `where` keyword to make `where clause` query.
+
+- Use `order` keyword to order items
+
+for more, refer to [Sequelize Model Querying - Basics](https://sequelize.org/docs/v6/core-concepts/model-querying-basics/)
+
+###  Using `findAll` method:
 
 ```javascript
 // imports
@@ -34,7 +68,7 @@ const getAll = async (req, res) => {
 
 ```
 
-Using `findOne` method:
+### Using `findOne` method:
 
 ```javascript
 // imports
@@ -50,7 +84,7 @@ const getOne = async (req, res) => {
 }
 ```
 
-Using `findByPk` method:
+### Using `findByPk` method:
 
 ```javascript
 // imports
@@ -66,7 +100,7 @@ const getById = async (req, res) => {
 }
 ```
 
-Using `with own query` method:
+### Using `with own query` method:
 
 ```javascript
 // imports
