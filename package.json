@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node tests/index.js",
-    "publish": "npm publish",
+    "deploy": "npm publish",
     "git:push": "git push origin",
     "version:patch": "npm version patch",
     "version:minor": "npm version minor",
