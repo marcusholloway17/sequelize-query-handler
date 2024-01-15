@@ -10,7 +10,9 @@ var _ = require("lodash");
  */
 const finder = (array, searchField, value, returnField) => {
   return (returnField !== null) | undefined
-    ? _.find(array, (e) => e[String(searchField)] == String(value))?.[String(returnField)]
+    ? _.find(array, (e) => e[String(searchField)] == String(value))?.[
+        String(returnField)
+      ]
     : _.find(array, (e) => e[String(searchField)] == String(value));
 };
 
@@ -35,9 +37,9 @@ const handleQuery = (req, models) => {
   query.order = globalRequest?.order || [];
 
   // handle pagination
-  if (globalRequest?.page && globalRequest?.pageSize) {
-    const page = parseInt(globalRequest?.page) || 1;
-    const pageSize = parseInt(globalRequest?.pageSize) || 10;
+  if (req.query?.page && req.query?.pageSize) {
+    const page = parseInt(req.query?.page) || 1;
+    const pageSize = parseInt(req.query?.pageSize) || 10;
 
     query.limit = pageSize;
     query.offset = (page - 1) * pageSize;
@@ -54,7 +56,12 @@ const handleQuery = (req, models) => {
           firstLevelItem?.model &&
           finder(models, "key", firstLevelItem?.model, "value")
         ) {
-          firstLevelItem.model = finder(models, "key", firstLevelItem?.model, "value");
+          firstLevelItem.model = finder(
+            models,
+            "key",
+            firstLevelItem?.model,
+            "value"
+          );
         }
         // 2nd level
         if (firstLevelItem?.include && Array.isArray(firstLevelItem?.include)) {
