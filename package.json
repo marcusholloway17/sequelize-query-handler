@@ -22,5 +22,8 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.17.21"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }
