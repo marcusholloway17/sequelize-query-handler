@@ -1,0 +1,11 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+
+## [1.0.3] - 2024-01-15
+
+- handling pagination in query object, No more in \_query object
+
+### Changed
+
+- index.js
