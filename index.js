@@ -23,7 +23,14 @@ const finder = (array, searchField, value, returnField) => {
  * @returns {any}
  */
 const handleQuery = (req, models) => {
-  const globalRequest = _.merge(req.body?._query, req.query?._query);
+  // handle properly query in the request query object
+  const __query =
+    typeof req.query?._query == "string"
+      ? JSON.parse(req.query?._query)
+      : { ...req.query?._query };
+
+  // merge body & query object
+  const globalRequest = _.merge(req.body?._query, __query);
 
   let query = {};
   // in the body
