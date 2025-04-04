@@ -17,6 +17,128 @@ const finder = (array, searchField, value, returnField) => {
     : _.find(array, (e) => e[String(searchField)] == String(value));
 };
 
+const OperatorsMap = [
+  {
+    key: 'or',
+    value: [Op.or]
+  },
+  {
+    key: 'and',
+    value: [Op.and]
+  },
+  {
+    key: 'eq',
+    value: [Op.eq]
+  },
+  {
+    key: 'ne',
+    value: [Op.ne]
+  },
+  {
+    key: 'is',
+    value: [Op.is]
+  },
+  {
+    key: 'not',
+    value: [Op.not]
+  },
+  {
+    key: 'col',
+    value: [Op.col]
+  },
+  {
+    key: 'gt',
+    value: [Op.gt]
+  },
+  {
+    key: 'gte',
+    value: [Op.gte]
+  },
+  {
+    key: 'lt',
+    value: [Op.lt]
+  },
+  {
+    key: 'lte',
+    value: [Op.lte]
+  },
+  {
+    key: 'between',
+    value: [Op.between]
+  },
+  {
+    key: 'notBetween',
+    value: [Op.notBetween]
+  },
+  {
+    key: 'all',
+    value: [Op.all]
+  },
+  {
+    key: 'in',
+    value: [Op.in]
+  },
+  {
+    key: 'notIn',
+    value: [Op.notIn]
+  },
+  {
+    key: 'like',
+    value: [Op.like]
+  },
+  {
+    key: 'notLike',
+    value: [Op.notLike]
+  },
+  {
+    key: 'startsWith',
+    value: [Op.startsWith]
+  },
+  {
+    key: 'endsWith',
+    value: [Op.endsWith]
+  },
+  {
+    key: 'substring',
+    value: [Op.substring]
+  },
+  {
+    key: 'iLike',
+    value: [Op.iLike]
+  },
+  {
+    key: 'notILike',
+    value: [Op.notILike]
+  },
+  {
+    key: 'regexp',
+    value: [Op.regexp]
+  },
+  {
+    key: 'notRegexp',
+    value: [Op.notRegexp]
+  },
+  {
+    key: 'iRegexp',
+    value: [Op.iRegexp]
+  },
+  {
+    key: 'notIRegexp',
+    value: [Op.notIRegexp]
+  },
+  {
+    key: 'any',
+    value: [Op.any]
+  },
+  {
+    key: 'match',
+    value: [Op.match]
+  },
+]
+
+const hasOperator = (value) => !!OperatorsMap.find((o) => o.key == value);
+const getOperator = (value) => OperatorsMap.find((o) => o.key == value).value;
+
 /**
  * handle queries object passed in the body or query and return it
  * @param {any} req reauest object
@@ -73,8 +195,8 @@ const handleQuery = (req, models) => {
           const firstLevelItemWhere = firstLevelItem?.where;
           if (firstLevelItemWhere) {
             for (const field in firstLevelItemWhere) {
-              if (Object.hasOwn(Op, field)) {
-                Object.defineProperty(firstLevelItemWhere, `[${Op}.${field}]`, { value: firstLevelItemWhere[field] });
+              if (hasOperator(field)) {
+                Object.defineProperty(firstLevelItemWhere, getOperator(field), { value: firstLevelItemWhere[field] });
                 delete firstLevelItemWhere[field];
               }
             }
@@ -97,8 +219,8 @@ const handleQuery = (req, models) => {
               const secondLevelItemWhere = seconLevelItem?.where;
               if (secondLevelItemWhere) {
                 for (const field in secondLevelItemWhere) {
-                  if (Object.hasOwn(Op, field)) {
-                    Object.defineProperty(secondLevelItemWhere, `[${Op}.${field}]`, { value: secondLevelItemWhere[field] });
+                  if (hasOperator(field)) {
+                    Object.defineProperty(secondLevelItemWhere, getOperator(field), { value: secondLevelItemWhere[field] });
                     delete secondLevelItemWhere[field];
                   }
                 }
@@ -124,8 +246,8 @@ const handleQuery = (req, models) => {
                   const thirdLevelItemsWhere = thirdLevelItems?.where;
                   if (thirdLevelItemsWhere) {
                     for (const field in thirdLevelItemsWhere) {
-                      if (Object.hasOwn(Op, field)) {
-                        Object.defineProperty(thirdLevelItemsWhere, `[${Op}.${field}]`, { value: thirdLevelItemsWhere[field] });
+                      if (hasOperator(field)) {
+                        Object.defineProperty(thirdLevelItemsWhere, getOperator(field), { value: thirdLevelItemsWhere[field] });
                         delete thirdLevelItemsWhere[field];
                       }
                     }
@@ -153,8 +275,8 @@ const handleQuery = (req, models) => {
                   const fourthLevelItemsWhere = fourthLevelItems?.where;
                   if (fourthLevelItemsWhere) {
                     for (const field in fourthLevelItemsWhere) {
-                      if (Object.hasOwn(Op, field)) {
-                        Object.defineProperty(fourthLevelItemsWhere, `[${Op}.${field}]`, { value: fourthLevelItemsWhere[field] });
+                      if (hasOperator(field)) {
+                        Object.defineProperty(fourthLevelItemsWhere, getOperator(field), { value: fourthLevelItemsWhere[field] });
                         delete fourthLevelItemsWhere[field];
                       }
                     }
@@ -172,8 +294,8 @@ const handleQuery = (req, models) => {
     // level one
     if (globalRequestWhere) {
       for (const field in globalRequestWhere) {
-        if (Object.hasOwn(Op, field)) {
-          Object.defineProperty(globalRequestWhere, `[${Op}.${field}]`, { value: globalRequestWhere[field] });
+        if (hasOperator(field)) {
+          Object.defineProperty(globalRequestWhere, getOperator(field), { value: globalRequestWhere[field] });
           delete globalRequestWhere[field];
         }
       }
