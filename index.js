@@ -73,7 +73,7 @@ const handleQuery = (req, models) => {
           const firstLevelItemWhere = firstLevelItem?.where;
           if (firstLevelItemWhere) {
             for (const field in firstLevelItemWhere) {
-              if (Op[field]) {
+              if (Object.hasOwn(Op, field)) {
                 Object.defineProperty(firstLevelItemWhere, `[${Op}.${field}]`, { value: firstLevelItemWhere[field] });
                 delete firstLevelItemWhere[field];
               }
@@ -97,7 +97,7 @@ const handleQuery = (req, models) => {
               const secondLevelItemWhere = seconLevelItem?.where;
               if (secondLevelItemWhere) {
                 for (const field in secondLevelItemWhere) {
-                  if (Op[field]) {
+                  if (Object.hasOwn(Op, field)) {
                     Object.defineProperty(secondLevelItemWhere, `[${Op}.${field}]`, { value: secondLevelItemWhere[field] });
                     delete secondLevelItemWhere[field];
                   }
@@ -124,7 +124,7 @@ const handleQuery = (req, models) => {
                   const thirdLevelItemsWhere = thirdLevelItems?.where;
                   if (thirdLevelItemsWhere) {
                     for (const field in thirdLevelItemsWhere) {
-                      if (Op[field]) {
+                      if (Object.hasOwn(Op, field)) {
                         Object.defineProperty(thirdLevelItemsWhere, `[${Op}.${field}]`, { value: thirdLevelItemsWhere[field] });
                         delete thirdLevelItemsWhere[field];
                       }
@@ -153,7 +153,7 @@ const handleQuery = (req, models) => {
                   const fourthLevelItemsWhere = fourthLevelItems?.where;
                   if (fourthLevelItemsWhere) {
                     for (const field in fourthLevelItemsWhere) {
-                      if (Op[field]) {
+                      if (Object.hasOwn(Op, field)) {
                         Object.defineProperty(fourthLevelItemsWhere, `[${Op}.${field}]`, { value: fourthLevelItemsWhere[field] });
                         delete fourthLevelItemsWhere[field];
                       }
@@ -172,7 +172,7 @@ const handleQuery = (req, models) => {
     // level one
     if (globalRequestWhere) {
       for (const field in globalRequestWhere) {
-        if (Op[field]) {
+        if (Object.hasOwn(Op, field)) {
           Object.defineProperty(globalRequestWhere, `[${Op}.${field}]`, { value: globalRequestWhere[field] });
           delete globalRequestWhere[field];
         }
