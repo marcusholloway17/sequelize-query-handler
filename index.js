@@ -1,4 +1,5 @@
 var _ = require("lodash");
+const { Op } = require("sequelize");
 
 /**
  * find an item through an array of object
@@ -11,8 +12,8 @@ var _ = require("lodash");
 const finder = (array, searchField, value, returnField) => {
   return (returnField !== null) | undefined
     ? _.find(array, (e) => e[String(searchField)] == String(value))?.[
-        String(returnField)
-      ]
+    String(returnField)
+    ]
     : _.find(array, (e) => e[String(searchField)] == String(value));
 };
 
@@ -69,6 +70,14 @@ const handleQuery = (req, models) => {
             firstLevelItem?.model,
             "value"
           );
+          const firstLevelItemWhere = firstLevelItem?.where;
+          if (firstLevelItemWhere) {
+            for (const field in firstLevelItemWhere) {
+              if (Op[field]) {
+                firstLevelItemWhere[`[${Op}.${field}]`] = firstLevelItemWhere[field]
+              }
+            }
+          }
         }
         // 2nd level
         if (firstLevelItem?.include && Array.isArray(firstLevelItem?.include)) {
@@ -84,6 +93,14 @@ const handleQuery = (req, models) => {
                 seconLevelItem?.model,
                 "value"
               );
+              const secondLevelItemWhere = seconLevelItem?.where;
+              if (secondLevelItemWhere) {
+                for (const field in secondLevelItemWhere) {
+                  if (Op[field]) {
+                    secondLevelItemWhere[`[${Op}.${field}]`] = secondLevelItemWhere[field]
+                  }
+                }
+              }
             }
             // 3rd level
             if (
@@ -102,6 +119,14 @@ const handleQuery = (req, models) => {
                     thirdLevelItem?.model,
                     "value"
                   );
+                  const thirdLevelItemsWhere = thirdLevelItems?.where;
+                  if (thirdLevelItemsWhere) {
+                    for (const field in thirdLevelItemsWhere) {
+                      if (Op[field]) {
+                        thirdLevelItemsWhere[`[${Op}.${field}]`] = thirdLevelItemsWhere[field]
+                      }
+                    }
+                  }
                 }
                 // 4th level
                 if (
@@ -122,12 +147,31 @@ const handleQuery = (req, models) => {
                       );
                     }
                   });
+                  const fourthLevelItemsWhere = fourthLevelItems?.where;
+                  if (fourthLevelItemsWhere) {
+                    for (const field in fourthLevelItemsWhere) {
+                      if (Op[field]) {
+                        fourthLevelItemsWhere[`[${Op}.${field}]`] = fourthLevelItemsWhere[field]
+                      }
+                    }
+                  }
                 }
               });
             }
           });
         }
       });
+    }
+
+    // handle where query with operators
+    const globalRequestWhere = globalRequest?.where;
+    // level one
+    if (globalRequestWhere) {
+      for (const field in globalRequestWhere) {
+        if (Op[field]) {
+          globalRequestWhere[`[${Op}.${field}]`] = globalRequestWhere[field]
+        }
+      }
     }
     query.include = globalRequestInclude;
   } else {
