@@ -1,6 +1,6 @@
 {
   "name": "sequelize-query-handler",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Dynamically handling queries with sequelize can be a pain. This package provides you with a function to query your database as you wish",
   "main": "index.js",
   "scripts": {

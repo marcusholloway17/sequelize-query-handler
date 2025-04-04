@@ -74,7 +74,8 @@ const handleQuery = (req, models) => {
           if (firstLevelItemWhere) {
             for (const field in firstLevelItemWhere) {
               if (Op[field]) {
-                firstLevelItemWhere[`[${Op}.${field}]`] = firstLevelItemWhere[field]
+                firstLevelItemWhere[`[${Op}.${field}]`] = firstLevelItemWhere[field];
+                delete firstLevelItemWhere[field];
               }
             }
           }
@@ -97,7 +98,8 @@ const handleQuery = (req, models) => {
               if (secondLevelItemWhere) {
                 for (const field in secondLevelItemWhere) {
                   if (Op[field]) {
-                    secondLevelItemWhere[`[${Op}.${field}]`] = secondLevelItemWhere[field]
+                    secondLevelItemWhere[`[${Op}.${field}]`] = secondLevelItemWhere[field];
+                    delete secondLevelItemWhere[field];
                   }
                 }
               }
@@ -123,7 +125,8 @@ const handleQuery = (req, models) => {
                   if (thirdLevelItemsWhere) {
                     for (const field in thirdLevelItemsWhere) {
                       if (Op[field]) {
-                        thirdLevelItemsWhere[`[${Op}.${field}]`] = thirdLevelItemsWhere[field]
+                        thirdLevelItemsWhere[`[${Op}.${field}]`] = thirdLevelItemsWhere[field];
+                        delete thirdLevelItemsWhere[field];
                       }
                     }
                   }
@@ -151,7 +154,8 @@ const handleQuery = (req, models) => {
                   if (fourthLevelItemsWhere) {
                     for (const field in fourthLevelItemsWhere) {
                       if (Op[field]) {
-                        fourthLevelItemsWhere[`[${Op}.${field}]`] = fourthLevelItemsWhere[field]
+                        fourthLevelItemsWhere[`[${Op}.${field}]`] = fourthLevelItemsWhere[field];
+                        delete fourthLevelItemsWhere[field];
                       }
                     }
                   }
@@ -169,7 +173,8 @@ const handleQuery = (req, models) => {
     if (globalRequestWhere) {
       for (const field in globalRequestWhere) {
         if (Op[field]) {
-          globalRequestWhere[`[${Op}.${field}]`] = globalRequestWhere[field]
+          globalRequestWhere[`[${Op}.${field}]`] = globalRequestWhere[field];
+          delete globalRequestWhere[field];
         }
       }
     }
