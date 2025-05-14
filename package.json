@@ -4,7 +4,7 @@
   "description": "Dynamically handling queries with sequelize can be a pain. This package provides you with a function to query your database as you wish",
   "main": "index.js",
   "scripts": {
-    "test": "node tests/index.js",
+    "test": "jest",
     "deploy": "npm publish",
     "git:push": "git push origin",
     "version:patch": "npm version patch",
@@ -23,5 +23,8 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
