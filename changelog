@@ -1,11 +1,33 @@
-# Change Log
+# Changelog
 
-All notable changes to this project will be documented in this file.
+## [Unreleased]
 
-## [1.0.3] - 2024-01-15
-
-- handling pagination in query object, No more in \_query object
+### Added
+- **Factory Function for `handleQuery`**: Introduced `createHandleQuery` factory function to initialize Sequelize models once and bind them in a closure, eliminating the need to pass `models` as a parameter to `handleQuery`.
+- **Recursive Include Processing**: Added `processIncludes` function to recursively process nested `include` clauses, supporting arbitrary levels of nesting.
+- **Input Validation**: Added comprehensive input validation for `finder` and `handleQuery` functions, ensuring `array`, `searchField`, `req`, and `models` are valid.
+- **Error Handling**: Implemented detailed error messages for invalid inputs, JSON parsing failures, and missing models in `include` clauses.
+- **Unit Tests**: Created `queryHandler.test.js` with Jest to test `finder` and `createHandleQuery` functions, covering key scenarios and edge cases.
 
 ### Changed
+- **Type Safety**: Replaced loose equality (`==`) with strict equality (`===`) in `finder` to prevent unexpected type coercion.
+- **Removed Type Coercion**: Eliminated unnecessary `String()` coercion in `finder` for safer comparisons.
+- **Refactored Nested Includes**: Replaced repetitive nested `map` loops for `include` processing with a recursive `processIncludes` function for better maintainability and scalability.
+- **Removed Redundant Async**: Removed unnecessary `async` keyword from `map` functions in `handleQuery`, as no asynchronous operations were performed.
+- **Improved Readability**: Renamed variables (e.g., `__query` to `parsedQuery`, `globalRequest` to `mergedQuery`) for clarity and consistency.
+- **Modern JavaScript**: Used `const` for requiring Lodash and leveraged optional chaining (`?.`) and nullish coalescing (`??`) for robust property access.
+- **Simplified Finder Logic**: Fixed problematic ternary operator in `finder` (`(returnField !== null) | undefined`) to use a clear condition check.
+- **Performance Optimization**: Replaced Lodash `_.find` with native `Array.find` in `finder` for simplicity and reduced redundant `finder` calls in `processIncludes`.
 
-- index.js
+### Fixed
+- **Error-Prone Logic**: Corrected the bitwise OR (`|`) issue in `finder`'s ternary operator, ensuring proper return value handling.
+- **JSON Parsing Safety**: Added try-catch block for JSON parsing in `handleQuery` to handle malformed JSON gracefully.
+- **Model Lookup**: Ensured `processIncludes` throws an error if a model is not found, improving debugging.
+
+### Removed
+- **Redundant Parameter**: Removed the `models` parameter from `handleQuery`, as it is now managed via the `createHandleQuery` factory function.
+- **Nested Loop Structure**: Eliminated repetitive nested loops for `include` processing, replaced by recursive function.
+
+## Notes
+- The `createHandleQuery` factory function encapsulates models in a closure, improving testability and thread safety compared to a global variable approach.
+- The test file (`queryHandler.test.js`) ensures robust coverage of `finder` and `handleQuery` functionality, including edge cases like invalid inputs and missing models.
