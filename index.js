@@ -105,6 +105,5 @@ const createHandleQuery = (models) => {
 };
 
 module.exports = {
-  finder,
   createHandleQuery,
 };
